@@ -20,7 +20,7 @@ public class Application implements CommandLineRunner {
 	private DataSource dataSource;
 	
 	@Autowired
-	private AnyMapper anyMapper;
+	private AnyMapper anyMapper;// Tag AnyMapper with @Mapper.
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

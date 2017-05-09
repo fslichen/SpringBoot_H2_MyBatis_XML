@@ -16,10 +16,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class MyBatisConfiguration {
 	// The following bean is optional.
-	// If provided, mybatis uses the data source you defined.
-	// If not provided, mybatis uses the default data source with URL equals jdbc:h2:mem:testdb
-	@Bean// Inject DataSource
-	@ConfigurationProperties("datasource")// Reads the properties from application.properties automatically. The prefix is datasource. 
+	// If provided, mybatis will use the data source you defined.
+	// If not provided, mybatis will use the default data source with URL equals jdbc:h2:mem:testdb
+	@Bean
+	// The prefix is datasource. 
+	// Reads the properties from application.properties automatically including but not limited to url and password. 
+	@ConfigurationProperties("datasource")
 	public DataSource dataSource() {
 		return DataSourceBuilder.create().build();
 	}	

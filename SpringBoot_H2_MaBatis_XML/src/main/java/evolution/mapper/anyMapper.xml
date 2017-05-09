@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="evolution.mapper.AnyMapper">
-	<!-- Define typeAliases in mybatis-config.xml -->
+	<!-- Define typeAliases in either application.properties or mybatis-config.xml -->
 	<!-- Don't make a mistake to customize your own SqlSessionFactoryBean, otherwise you have to define typeAliases in SqlSessionFactoryBean manually. -->
     <!-- Corresponds to AnyMapper interface. -->
     <select id="selectByName" resultType="AnyEntity">
