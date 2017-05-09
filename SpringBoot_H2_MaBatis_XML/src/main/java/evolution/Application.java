@@ -28,17 +28,22 @@ public class Application implements CommandLineRunner {
 	}
 
 	public void initialize() throws SQLException {
-		// Initialize
+		// Create table any_table.
 		Statement statement = dataSource.getConnection().createStatement();
 		statement.execute("drop table if exists any_table");
 		statement.execute("create table any_table(id int primary key auto_increment"
 				+ ", name varchar(20), gender varchar(10))");
 		statement.execute("insert into any_table(name, gender) values('Chen', 'M')");
+		// Create table student
+		statement.execute("drop table if exists student");
+		statement.execute("create table student(id int primary key auto_increment"
+				+ ", name varchar(20), gender varchar(10))");
 	}
 	
 	@Override
 	public void run(String... arg0) throws Exception {
 		initialize();
+		// Test AnyEntity and AnotherEntity
 		List<AnyEntity> anyEntities = anyMapper.selectByName("Chen");
 		System.out.println("Select by Name = " + anyEntities);
 		anyEntities = anyMapper.selectAll();
@@ -49,5 +54,6 @@ public class Application implements CommandLineRunner {
 		System.out.println("Select Names = " + names);
 		List<AnotherEntity> anotherEntities = anyMapper.selectIdsAndNames();
 		System.out.println("Select Ids and Names = " + anotherEntities);
+		// Test Student and Course
 	}
 }
