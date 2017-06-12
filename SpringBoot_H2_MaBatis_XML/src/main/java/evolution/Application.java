@@ -2,6 +2,7 @@ package evolution;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import evolution.entity.AnotherEntity;
 import evolution.entity.AnyEntity;
+import evolution.mapper.AnotherMapper;
 import evolution.mapper.AnyMapper;
 
 @SpringBootApplication
@@ -22,6 +24,9 @@ public class Application implements CommandLineRunner {
 	
 	@Autowired
 	private AnyMapper anyMapper;// Tag AnyMapper with @Mapper.
+	
+	@Autowired
+	private AnotherMapper anotherMapper;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -34,10 +39,7 @@ public class Application implements CommandLineRunner {
 		statement.execute("create table any_table(id int primary key auto_increment"
 				+ ", name varchar(20), gender varchar(10))");
 		statement.execute("insert into any_table(name, gender) values('Chen', 'M')");
-		// Create table student
-		statement.execute("drop table if exists student");
-		statement.execute("create table student(id int primary key auto_increment"
-				+ ", name varchar(20), gender varchar(10))");
+		statement.execute("insert into any_table(name, gender) values('Ling', 'F')");
 	}
 	
 	@Override
@@ -54,6 +56,16 @@ public class Application implements CommandLineRunner {
 		System.out.println("Select Names = " + names);
 		List<AnotherEntity> anotherEntities = anyMapper.selectIdsAndNames();
 		System.out.println("Select Ids and Names = " + anotherEntities);
-		// Test Student and Course
+		anyEntities = anotherMapper.findByOptionalName("Chen");
+		System.out.println(anyEntities);
+		anyEntities = anotherMapper.findByOptionalName(null);
+		System.out.println(anyEntities);
+		anyEntities = anotherMapper.findByOptionalNameOrGender("Chen", "M");
+		System.out.println(anyEntities);
+		anotherMapper.updateById(1, "Elsa", "F");
+		anyEntities = anyMapper.selectByName("Elsa");
+		System.out.println(anyEntities);
+		anyEntities = anotherMapper.findByNames(Arrays.asList("Chen", "Elsa"));
+		System.out.println(anyEntities);
 	}
 }

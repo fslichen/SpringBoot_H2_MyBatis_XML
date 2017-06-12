@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="evolution.mapper.AnotherMapper">
+	<select id="findByOptionalName" resultType="AnyEntity">
+		select * from any_table
+		<if test="name != null">
+			where name = #{name}
+		</if>
+	</select>
+	
+	<!-- Where know exactly where to insert where and when to strip off and or. -->
+	<select id="findByOptionalNameOrGender" resultType="AnyEntity">
+		select * from any_table
+		<where>
+			<choose>
+				<when test="name != null">
+					name = #{name}
+				</when>
+				<when test="gender != null">
+					and gender = #{gender}
+				</when>
+				<otherwise>
+					and name != null and gender != null
+				</otherwise>
+			</choose>	
+		</where>
+	</select>
+	
+	<!-- Set is smart enough to remove redundant commas. -->
+	<update id="updateById">
+		update any_table
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="gender != null">
+				gender = #{gender}
+			</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<!-- names corresponds to List<String> names in the mapper interface. -->
+	<!-- index stands for the key while item stands for the value. -->
+	<!-- It accepts list, set, array and map -->
+	<!-- When using an Iterable or Array, index will be the number of current iteration and value item will be the element retrieved in this iteration. When using a Map (or Collection of Map.Entry objects), index will be the key object and item will be the value object. -->
+	<select id="findByNames" resultType="AnyEntity">
+		select * from any_table
+		<where>
+			name in 
+			<foreach collection="names" index="index" item="name" open="(" separator="," close=")">
+				#{name}
+			</foreach>
+		</where>
+	</select>
+</mapper>
