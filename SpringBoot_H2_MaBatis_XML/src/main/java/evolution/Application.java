@@ -67,5 +67,7 @@ public class Application implements CommandLineRunner {
 		System.out.println(anyEntities);
 		anyEntities = anotherMapper.findByNames(Arrays.asList("Chen", "Elsa"));
 		System.out.println(anyEntities);
+		anyEntities = anotherMapper.findBySqlFragment();
+		System.out.println(anyEntities);
 	}
 }

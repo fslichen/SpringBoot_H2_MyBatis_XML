@@ -57,4 +57,17 @@
 			</foreach>
 		</where>
 	</select>
+	
+	<!-- Use ${} instead of #{} -->
+	<!-- If it's varchar, don't forget to enclose ${} with '' -->
+	<sql id="nameAndGender">
+		where name = '${name}' and gender = '${gender}'
+	</sql>	
+	<select id="findBySqlFragment" resultType="AnyEntity">
+		select * from any_table
+		<include refid="nameAndGender">
+			<property name="name" value="Elsa"/>
+			<property name="gender" value="F"/>
+		</include>
+	</select>
 </mapper>

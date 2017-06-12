@@ -18,4 +18,6 @@ public interface AnotherMapper {// Corresponds to anotherMapper.xml
 			@Param("gender") String gender);
 	
 	public List<AnyEntity> findByNames(@Param("names") List<String> names);
+	
+	public List<AnyEntity> findBySqlFragment();
 }
